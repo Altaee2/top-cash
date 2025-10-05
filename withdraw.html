@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>سحب الأرباح</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css">
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    fontFamily: {
+                        sans: ['Inter', 'system-ui', 'Ariel', 'sans-serif'],
+                    },
+                    colors: {
+                        'primary': '#059669', // Emerald 600
+                        'secondary': '#10b981', // Emerald 500
+                        'accent': '#34d399', // Emerald 400
+                        'dark-bg': '#1f2937', // Gray 800 (الخلفية الداكنة)
+                        'light-bg': '#f3f4f6', // Gray 100
+                        'card-bg': '#374151', // Gray 700 (خلفية البطاقة)
+                    }
+                }
+            }
+        }
+    </script>
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+            background-color: #111827;
+            /* خلفية داكنة جداً */
+            color: #d1d5db;
+            /* نص رمادي فاتح */
+        }
+        
+        .card {
+            /* تصميم بطاقة مطابق للداشبورد في النمط الداكن */
+            background-color: #1f2937;
+            /* dark-bg */
+            border-radius: 12px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+            border: 1px solid #374151;
+        }
+        /* تنسيق خاص للأزرار المختلفة (نفس الألوان الأصلية) */
+        
+        #master-btn {
+            background-color: #3498db;
+        }
+        
+        #athir-btn {
+            background-color: #2ecc71;
+        }
+        
+        #asia-btn {
+            background-color: #f39c12;
+        }
+        
+        #usdt-btn {
+            background-color: #2c3e50;
+        }
+        /* حالة الزر النشط (Active) - يستخدم لون primary #059669 */
+        
+        .withdraw-btn.active {
+            transform: scale(1.05);
+            /* إطار لونه أخضر primary محيط بالزر */
+            box-shadow: 0 0 0 4px #059669, 0 6px 15px rgba(0, 0, 0, 0.5);
+            border: 2px solid #059669;
+        }
+        /* تنسيق قسم التفاصيل (شكل تنبيه أصفر فاتح للنمط الداكن) */
+        
+        .withdraw-details {
+            background-color: #3f3316;
+            /* لون داكن مائل للأصفر */
+            border-color: #d97706;
+            /* Yellow-600 */
+            color: #fcd34d;
+            /* Yellow-300 */
+        }
+        /* تنسيق قسم الملاحظة (شكل تنبيه أحمر داكن) */
+        
+        .note {
+            background-color: #450a0a;
+            /* Red-900 */
+            color: #f87171;
+            /* Red-400 */
+            border-color: #ef4444;
+            /* Red-500 */
+        }
+        
+        .price-list li {
+            background-color: #374151 !important;
+            /* Card BG */
+            color: #f9fafb !important;
+            /* Text White */
+        }
+    </style>
+</head>
+
+<body class="min-h-screen flex flex-col">
+    <div class="max-w-4xl w-full mx-auto p-4 sm:p-6 lg:p-8 flex-grow">
+        <div class="card p-6 sm:p-8">
+            <a href="dashboard.html" class="inline-block bg-gray-600 text-white py-2 px-4 rounded-lg text-sm hover:bg-gray-700 transition duration-200 mb-6">
+                <i class="fa-solid fa-arrow-right-to-bracket ml-2 transform rotate-180"></i> رجوع للوحة
+            </a>
+            <h1 class="text-2xl sm:text-3xl font-bold text-primary mb-6 border-b-2 border-gray-600 pb-4 text-center">
+                <i class="fa-solid fa-money-bill-transfer ml-2"></i> سحب الأرباح - اختر طريقة الدفع
+            </h1>
+
+            <div class="withdraw-options flex flex-wrap justify-center gap-4 mb-8">
+                <button id="master-btn" class="withdraw-btn flex-1 min-w-[150px] text-white p-4 rounded-xl font-semibold cursor-pointer transition duration-300 transform hover:scale-[1.02] shadow-xl" data-target="master">
+                    <i class="fa-solid fa-credit-card ml-2"></i> ماستر كارد
+                </button>
+                <button id="athir-btn" class="withdraw-btn flex-1 min-w-[150px] text-white p-4 rounded-xl font-semibold cursor-pointer transition duration-300 transform hover:scale-[1.02] shadow-xl" data-target="athir">
+                    <i class="fa-solid fa-bolt ml-2"></i> رصيد أثير
+                </button>
+                <button id="asia-btn" class="withdraw-btn flex-1 min-w-[150px] text-white p-4 rounded-xl font-semibold cursor-pointer transition duration-300 transform hover:scale-[1.02] shadow-xl" data-target="asia">
+                    <i class="fa-solid fa-mobile-screen-button ml-2"></i> رصيد أسيا
+                </button>
+                <button id="usdt-btn" class="withdraw-btn flex-1 min-w-[150px] text-white p-4 rounded-xl font-semibold cursor-pointer transition duration-300 transform hover:scale-[1.02] shadow-xl" data-target="usdt">
+                    <i class="fa-brands fa-bitcoin ml-2"></i> USDT (عملات رقمية)
+                </button>
+            </div>
+
+            <div id="details-section" class="withdraw-details hidden p-6 border-2 rounded-xl shadow-lg transition duration-500">
+            </div>
+        </div>
+    </div>
+
+    <script>
+        document.addEventListener('DOMContentLoaded', () => {
+            const detailSection = document.getElementById('details-section');
+            const buttons = document.querySelectorAll('.withdraw-btn');
+
+            // بيانات طرق السحب
+            const withdrawalData = {
+                master: {
+                    title: '<i class="fa-solid fa-sack-dollar ml-2"></i> أسعار السحب - ماستر كارد',
+                    prices: [
+                        '10$ = 50,000 نقطة',
+                        '25$ = 125,000 نقطة',
+                        '50$ = 250,000 نقطة',
+                        '100$ = 500,000 نقطة',
+                        '150$ = 750,000 نقطة'
+                    ],
+                    min: '🔻 أقل مبلغ للسحب هو 10 دولار',
+                    required: [
+                        '1️⃣ آيدي حسابك',
+                        '2️⃣ رقم الماستر الطويل 💳',
+                        '3️⃣ رقم الماستر القصير 🔢',
+                        '4️⃣ مبلغ السحب المطلوب (10 / 25 / 50 / 100 / 150) 💵'
+                    ],
+                    telegram: 'https://t.me/nnrrhhmm'
+                },
+                athir: {
+                    title: '<i class="fa-solid fa-bolt-lightning ml-2"></i> رصيد أثير مقابل نقاط توب',
+                    prices: [
+                        '5 أثير = 23,000 توب',
+                        '10 أثير = 45,000 توب',
+                        '15 أثير = 67,000 توب'
+                    ],
+                    min: '🔻 أقل مبلغ للسحب هو 5 أثير',
+                    required: [
+                        '1️⃣ ارسل آيدي حسابك',
+                        '2️⃣ رقم هاتفك 📱',
+                        '3⃣ مبلغ السحب المطلوب (5 / 10 / 15) 💵'
+                    ],
+                    telegram: 'https://t.me/W_N_2005'
+                },
+                asia: {
+                    title: '<i class="fa-solid fa-wifi-3 ml-2"></i> رصيد أسيا مقابل نقاط توب',
+                    prices: [
+                        '5 أسيا = 24,000 توب',
+                        '10 أسيا = 46,000 توب',
+                        '15 أسيا = 67,500 توب'
+                    ],
+                    min: '🔻 أقل مبلغ للسحب هو 5 أسيا',
+                    required: [
+                        '1️⃣ ارسل آيدي حسابك',
+                        '2️⃣ رقم هاتفك 📱',
+                        '3⃣ مبلغ السحب المطلوب (5 / 10 / 15) 💵'
+                    ],
+                    telegram: 'https://t.me/AS_F32'
+                },
+                usdt: {
+                    title: '<i class="fa-solid fa-wallet ml-2"></i> أسعار السحب - USDT',
+                    prices: [
+                        '10$ = 60,000 نقطة',
+                        '25$ = 135,000 نقطة',
+                        '50$ = 260,000 نقطة'
+                    ],
+                    min: '🔻 أقل مبلغ للسحب هو 10 دولار',
+                    required: [
+                        '1️⃣ آيدي حسابك في منصة OKX',
+                        '2️⃣ عنوان شبكة TRC20',
+                        '3️⃣ مبلغ السحب المطلوب (10 / 25 / 50) 💵'
+                    ],
+                    telegram: 'https://t.me/Topcash125'
+                }
+            };
+
+            // دالة لبناء محتوى التفاصيل مع تنسيقات Tailwind
+            function buildDetailsContent(data) {
+                const priceListHtml = data.prices.map(item => `<li class="bg-gray-800 p-3 rounded-lg mb-2 shadow-inner font-bold text-gray-100">${item}</li>`).join('');
+                const requirementsListHtml = data.required.map(item => `<p class="requirement mb-2 text-gray-200">${item}</p>`).join('');
+                const minHtml = data.min ? `<p class="font-bold text-red-400 text-center mb-4">${data.min}</p>` : '';
+
+                return `
+                    <h2 class="text-xl font-bold text-yellow-400 border-b border-yellow-700 pb-3 mb-4 text-right">${data.title}</h2>
+                    <ul class="list-none p-0 text-right mb-6">
+                        ${priceListHtml}
+                    </ul>
+                    ${minHtml}
+                    
+                    <p class="font-bold mb-3 border-b border-gray-600 pb-2 text-gray-100">📩 لإتمام طلب السحب يرجى إرسال البيانات التالية:</p>
+                    ${requirementsListHtml}
+                    
+                    <div class="note p-3 rounded-lg border my-6 text-center font-bold">
+                        <i class="fa-solid fa-triangle-exclamation ml-1"></i> ملاحظة: لازم يكون عندك **عداد 100 توب يومياً** حتى تكدر تسحب <i class="fa-solid fa-coins mr-1"></i>
+                    </div>
+                    <a href="${data.telegram}" target="_blank" class="block mt-4 text-center bg-[#229954] text-white p-3 rounded-lg text-lg font-bold hover:bg-[#1e8449] transition duration-200">
+                        <i class="fa-brands fa-telegram ml-2"></i> إرسال طلب السحب إلى المسؤول عبر تيليجرام
+                    </a>
+                `;
+            }
+
+            // معالج حدث النقر على الأزرار
+            buttons.forEach(button => {
+                button.addEventListener('click', () => {
+                    const targetKey = button.getAttribute('data-target');
+                    const data = withdrawalData[targetKey];
+
+                    // إزالة حالة النشاط من جميع الأزرار
+                    buttons.forEach(btn => btn.classList.remove('active'));
+                    // إضافة حالة النشاط للزر المضغوط
+                    button.classList.add('active');
+
+                    // ملء المحتوى وعرضه
+                    detailSection.innerHTML = buildDetailsContent(data);
+                    detailSection.classList.remove('hidden');
+                    detailSection.classList.add('block');
+                });
+            });
+        });
+    </script>
+</body>
+
+</html>
