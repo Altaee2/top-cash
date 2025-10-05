@@ -59,7 +59,7 @@ async function loadConfig() {
 const DAILY_GIFT_AMOUNT = 50;
 const COUNTER_INCREMENT = 0;
 const COOLDOWN_TIME_MS = 24 * 60 * 60 * 1000;
-const REFERRAL_BONUS = 100; // مكافأة صاحب كود الإحالة
+const REFERRAL_BONUS = 50; // مكافأة صاحب كود الإحالة
 const TRANSFER_FEE = 5000; // 👈 عمولة تحويل النقاط
 
 // قائمة العدادات القابلة للشراء
@@ -1289,5 +1289,6 @@ document.addEventListener('DOMContentLoaded', async() => {
 
     // تهيئة الـ Modal في جميع الصفحات التي تحتوي على الزر
     setupTermsModal();
+
 
 });
