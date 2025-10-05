@@ -1,28 +1,53 @@
 // قائمة الوكلاء الثابتة (يمكن تعديل هذه البيانات مباشرة هنا)
 const AGENTS_LIST = [{
-        id: 'agent1',
-        name: 'أحمد السعدي',
-        governorate: 'بغداد',
-        account: '@Ahmed_Alsaadi_Cash', // يجب أن يكون حساب تيليجرام
-        channel: 'https://t.me/Ahmed_Channel',
+        id: 'agent1_haydar',
+        name: 'حيدره - ال جميل',
+        governorate: 'كربلاء',
+        account: '@H_9_40', // يجب أن يكون حساب تيليجرام
+        channel: 'https://t.me/Topcash127',
         phone: '0770XXXXXXX'
     },
     {
-        id: 'agent2',
-        name: 'زينب الكاظمي',
-        governorate: 'البصرة',
-        account: '@Zainab_Official',
-        channel: 'https://t.me/Zainab_Cash_Channel',
+        id: 'agent2_anas',
+        name: 'انس',
+        governorate: 'نينوى',
+        account: '@AS_F32',
+        channel: 'https://t.me/Topcash32',
         phone: '0781XXXXXXX'
     },
     {
-        id: 'agent3',
-        name: 'علي الجبوري',
-        governorate: 'الموصل',
-        account: '@Ali_Aljubouri_App',
-        channel: null, // لا توجد قناة لهذا الوكيل
+        id: 'agent3_WLDAN',
+        name: 'ولدان',
+        governorate: 'صلاح الدين',
+        account: '@W_N_2005',
+        channel: 'https://t.me/Topcash120', // لا توجد قناة لهذا الوكيل
         phone: '0750XXXXXXX'
-    }
+    },
+    {
+        id: 'agent4_mohameed',
+        name: 'محمد خليل',
+        governorate: 'الانبار',
+        account: '@mhamadhalel',
+        channel: 'https://t.me/mhamadaz123',
+        phone: '0781XXXXXXX'
+    },
+    {
+        id: 'agent5_om_narges',
+        name: 'ام نرجس',
+        governorate: 'النجف الاشرف',
+        account: '@nnrrhhmm',
+        channel: 'https://t.me/Topcash130',
+        phone: '0781XXXXXXX'
+    },
+    {
+        id: 'agent6_Fatema',
+        name: 'فاطمة',
+        governorate: 'كربلاء',
+        account: '@Ffofa23',
+        channel: 'https://t.me/Topcash03',
+        phone: '0781XXXXXXX'
+    }                 
+                     
 ];
 
 // دالة لعرض بيانات الوكلاء في واجهة المستخدم (مُحدَّثة لـ Tailwind Dark Mode)
@@ -65,7 +90,7 @@ function loadAgentsPageData() {
                 <i class="fa-solid fa-user-tag ml-2 text-primary"></i> الوكيل: ${agent.name}
             </h4>
             <p class="text-gray-400"><strong><i class="fa-solid fa-earth-africa ml-1 text-yellow-500"></i> المحافظة:</strong> ${agent.governorate}</p>
-            <p class="text-gray-400"><strong><i class="fa-solid fa-square-phone ml-1 text-red-500"></i> رقم الهاتف:</strong> ${agent.phone}</p>
+          
             
             <div class="agent-links flex flex-wrap justify-end gap-3 pt-3 mt-4 border-t border-gray-700">
                 ${contactLink}
@@ -186,4 +211,5 @@ document.addEventListener('DOMContentLoaded', () => {
     setupTermsModal();
 
     // ...
+
 });
