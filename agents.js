@@ -23,14 +23,7 @@ const AGENTS_LIST = [{
         channel: 'https://t.me/Topcash120', // لا توجد قناة لهذا الوكيل
         phone: '0750XXXXXXX'
     },
-    {
-        id: 'agent4_mohameed',
-        name: 'محمد خليل',
-        governorate: 'الانبار',
-        account: '@mhamadhalel',
-        channel: 'https://t.me/mhamadaz123',
-        phone: '0781XXXXXXX'
-    },
+   
     {
         id: 'agent5_om_narges',
         name: 'ام نرجس',
@@ -213,3 +206,4 @@ document.addEventListener('DOMContentLoaded', () => {
     // ...
 
 });
+
